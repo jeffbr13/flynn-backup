@@ -1,0 +1,22 @@
+{
+  "name": "flynn-backup",
+  "version": "1.0.0",
+  "description": "Backup Flynn cluster to S3.",
+  "main": "backup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "flynn",
+    "s3",
+    "backup"
+  ],
+  "author": "Ben Jeffrey",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "aws-sdk": "^2.150.0",
+    "got": "^7.1.0",
+    "progress-stream": "^2.0.0",
+    "s3-stream-upload": "^2.0.2"
+  }
+}
