@@ -16,6 +16,7 @@
   "dependencies": {
     "aws-sdk": "^2.150.0",
     "got": "^7.1.0",
+    "iso8601": "^1.1.1",
     "progress-stream": "^2.0.0",
     "s3-stream-upload": "^2.0.2"
   }
