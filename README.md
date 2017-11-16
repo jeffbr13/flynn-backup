@@ -15,5 +15,5 @@ Create a new app on your Flynn cluster with the following environment variables:
 - `S3_ACCESS_KEY_ID`
 - `S3_ACCESS_KEY_SECRET` 
 - `FLYNN_CONTROLLER_ENDPOINT`: [Flynn Controller](https://flynn.io/docs/api/controller) endpoint.
-  `"controller.discoverd"` if running inside your cluster.
 - `FLYNN_CONTROLLER_KEY`: Flynn Controller auth key. Find this by running `flynn -a controller env get AUTH_KEY`.
+- `BACKUP_INTERVAL`: seconds between backups. Defaults to `86400` (24 hours).
