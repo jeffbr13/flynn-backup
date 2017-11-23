@@ -6,8 +6,12 @@ const iso8601 = require('iso8601');
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";     // don't check Flynn controller self-signed certificates
 const url = 'https://' + process.env.FLYNN_CONTROLLER_ENDPOINT + '/backup';
-const backup_file_key = 'flynn-backup-' + iso8601.fromDate(new Date()) + '.tar';
-const destination_url = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT}/${backup_file_key}`;
+let bucket_path = process.env.S3_BUCKET_PATH || '/';
+// ensure `/` at beginning and end of bucket_path.
+if (!bucket_path.startsWith('/')) bucket_path = '/' + bucket_path;
+if (!bucket_path.endsWith('/')) bucket_path = bucket_path + '/';
+const backup_file_key = bucket_path + 'flynn-backup-' + iso8601.fromDate(new Date()) + '.tar';
+const destination_url = `https://${process.env.S3_BUCKET}.${process.env.S3_ENDPOINT}${backup_file_key}`;
 
 const s3 = new AWS.S3({
     endpoint: new AWS.Endpoint(process.env.S3_ENDPOINT),
