@@ -1,8 +1,6 @@
 const AWS = require("aws-sdk");
-const UploadStream = require("s3-stream-upload");
 const got = require('got');
 const iso8601 = require('iso8601');
-
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";     // don't check Flynn controller self-signed certificates
 const url = 'https://' + process.env.FLYNN_CONTROLLER_ENDPOINT + '/backup';
@@ -21,11 +19,13 @@ const s3 = new AWS.S3({
 
 
 console.log(`Backing up Flynn from <${url}>…`);
-got.stream(url, {auth: ':' + process.env.FLYNN_CONTROLLER_KEY})
-    .pipe(UploadStream(s3, {Bucket: process.env.S3_BUCKET, Key: backup_file_key}))
-    .on("error", function (err) {
-        console.error(err);
-    })
-    .on("finish", function () {
-        console.log(`Uploaded backup to <${destination_url}>!`);
-    });
+
+const backup_file_stream = got.stream(url, {auth: ':' + process.env.FLYNN_CONTROLLER_KEY});
+s3.upload({
+        Bucket: process.env.S3_BUCKET,
+        Key: backup_file_key,
+        Body: backup_file_stream,
+    },
+    function (err, data) {
+        console.log(err, data);
+});
